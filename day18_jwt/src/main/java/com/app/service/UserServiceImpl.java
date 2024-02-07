@@ -1,10 +1,13 @@
 package com.app.service;
 
+import java.io.IOException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.StudentDao;
 import com.app.dao.TeacherDao;
@@ -38,6 +41,7 @@ public class UserServiceImpl implements UserService {
 	public StudentSignUp studentRegistration(StudentSignUp reqDTO) {
 		//dto --> entity
 		Students student=mapper.map(reqDTO, Students.class);
+//		Students student = new Students(reqDTO.getName(), reqDTO.getAge(), reqDTO.getGender(), reqDTO.getPhoneNo(), reqDTO.getAddress(), null, null, null);
 		UserEntity user = mapper.map(reqDTO, UserEntity.class);
 		
 		user.setPassword(encoder.encode(user.getPassword()));//pwd : encrypted using SHA

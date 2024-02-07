@@ -5,8 +5,11 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.entities.Gender;
 import com.app.entities.UserRole;
@@ -50,5 +53,7 @@ public class StudentSignUp {
 	private String address;
 	
 	private LocalDate joiningDate;
+	
+//	private MultipartFile profilePic;
 
 }

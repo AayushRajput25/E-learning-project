@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
-import com.app.dto.Signup;
 import com.app.dto.StudentSignUp;
 import com.app.dto.TeacherSignUp;
 import com.app.security.JwtUtils;
@@ -33,7 +31,7 @@ public class UserSignInSignUpController {
 	private AuthenticationManager mgr;
 
 	// sign up
-	@PostMapping("/student_signup")
+	@PostMapping(value = "/student_signup")
 	public ResponseEntity<?> StudentSignup(@RequestBody @Valid StudentSignUp dto) {
 		System.out.println("in sign up " + dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.studentRegistration(dto));
@@ -44,6 +42,7 @@ public class UserSignInSignUpController {
 		System.out.println("in sign up " + dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.teacherRegistration(dto));
 	}
+
 	/*
 	 * request payload : Auth req DTO : email n password resp payload : In case of
 	 * success : Auth Resp DTO : mesg + JWT token + SC 200 IN case of failure : SC
@@ -59,11 +58,10 @@ public class UserSignInSignUpController {
 		// user details)
 
 		Authentication verifiedAuth = mgr
-				.authenticate(new UsernamePasswordAuthenticationToken
-						(reqDTO.getEmail(), reqDTO.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(reqDTO.getEmail(), reqDTO.getPassword()));
 		System.out.println(verifiedAuth.getClass());// Custom user details
 		// => auth success
-		
+
 		return ResponseEntity
 				.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
 

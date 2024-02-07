@@ -13,12 +13,12 @@ public class ProductController {
 	public String viewProducts() {
 		return "any one can view the products!!!!!!!!!";
 	}
-	
+
 	// any authenticated user should be able to browse the categories
-		@GetMapping("/browse_categories")
-		public String browseCategories() {
-			return "any authenticated user should be able to browse the categories";
-		}
+	@GetMapping("/browse_categories")
+	public String browseCategories() {
+		return "any authenticated user should be able to browse the categories";
+	}
 
 	// customer should be able to purchase products
 	@GetMapping("/purchase")
@@ -31,11 +31,12 @@ public class ProductController {
 	public String addProducts() {
 		return "admin should be able to add the products";
 	}
+
 	// admin should be able to delete the products
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/delete")
-		public String deleteProducts() {
-			return "admin should be able to delete  the products";
+	public String deleteProducts() {
+		return "admin should be able to delete  the products";
 	}
 
 }
