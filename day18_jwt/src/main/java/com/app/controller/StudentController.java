@@ -2,6 +2,7 @@ package com.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,22 @@ public class StudentController {
 	public ResponseEntity<?> serveStudentImage(@PathVariable Long studentID) throws IOException, java.io.IOException {
 		System.out.println("in download img " + studentID);
 		return ResponseEntity.ok(student.downloadImage(studentID));
+	}
+	
+	@PostMapping("/fileSystem")
+	public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image")MultipartFile file) throws IOException, java.io.IOException {
+		String uploadImage = student.uploadImageToFileSystem(file);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(uploadImage);
+	}
+
+	@GetMapping("/fileSystem/{fileName}")
+	public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException, java.io.IOException {
+		byte[] imageData=student.downloadImageFromFileSystem(fileName);
+		return ResponseEntity.status(HttpStatus.OK)
+				.contentType(MediaType.valueOf("video/mp4"))
+				.body(imageData);
+
 	}
 	
 }

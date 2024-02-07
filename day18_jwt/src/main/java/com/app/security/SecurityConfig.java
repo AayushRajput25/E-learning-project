@@ -41,7 +41,7 @@ public class SecurityConfig {
 		csrf()
 		.disable().
 		authorizeRequests()
-		.antMatchers("/products/view","/users/student_signup","/users/signin","/users/teacher_signup",
+		.antMatchers("/products/view","/users/student_signup","/fileSystem","/users/signin","/users/teacher_signup",
 				"/v*/api-doc*/**","/swagger-ui/**","/student/**").permitAll()
 		.antMatchers("/products/purchase").hasRole("CUSTOMER")
 		.antMatchers("/products/add").hasRole("ADMIN")
