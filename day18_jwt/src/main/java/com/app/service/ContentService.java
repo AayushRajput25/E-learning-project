@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.ApiResponse;
 import com.app.dto.ContentDescDto;
+import com.app.dto.ContentGetDto;
 
 public interface ContentService {
 
@@ -15,7 +16,7 @@ public interface ContentService {
 
 	ApiResponse uploadImageToFileSystem(MultipartFile file, Long contentId) throws IOException;
 
-//	Object contentBYId(@NotNull Long contentId);
+	ContentGetDto contentBYId(@NotNull Long contentId);
 
 
 }

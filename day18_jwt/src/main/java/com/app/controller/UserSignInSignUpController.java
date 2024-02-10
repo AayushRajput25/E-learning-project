@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
-
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.StudentSignUp;
@@ -67,10 +65,10 @@ public class UserSignInSignUpController {
 			// => auth success
 
 			return ResponseEntity
-					.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
+					.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!"));
 		} catch (Exception e) {
-//			com.app.dto.ApiResponse res = new com.app.dto.ApiResponse("Inavalid details");
-			return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.FORBIDDEN) ;
+			SigninResponse err = new SigninResponse("","Inavalid credentials!!");
+			return ResponseEntity.ok(err);
 		}
 		
 

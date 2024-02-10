@@ -22,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.ApiResponse;
 import com.app.dto.ContentDescDto;
+import com.app.dto.ContentGetDto;
 import com.app.dto.CoursesDto;
+import com.app.dto.StudentDetailDTO;
+import com.app.dto.TeacherDetailResponseDto;
 import com.app.entities.Content;
 import com.app.entities.Courses;
 import com.app.entities.Teachers;
@@ -41,6 +44,26 @@ public class TeacherController {
 	@Autowired
 	private ContentService course;
 	
+	
+	
+	
+	@GetMapping (value = "/{teacherID}")
+	public ResponseEntity<?> studentDetails(@PathVariable Long teacherID){
+		System.out.println("in get Teacher"+teacherID);
+		return ResponseEntity.ok(teacher.getDetailsByID(teacherID));
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> updateDetails(@RequestBody TeacherDetailResponseDto teach){
+		System.out.println("in update Teacher details"+ teach);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(teacher.editDetails(teach));
+	}
+	
+	@DeleteMapping("/{teacherID}")
+	public ResponseEntity<?> deleteStudent(@PathVariable Long teacherID){
+		System.out.println("to delete Teacher "+teacherID);
+		return ResponseEntity.ok(teacher.deleteByID(teacherID));
+	}
 	
 	@PostMapping("/course/{teacherId}")
 	public ResponseEntity<?> addCourse(@PathVariable Long teacherId,@RequestBody CoursesDto course){
@@ -79,12 +102,14 @@ public class TeacherController {
 				.body(uploadImage);
 	}
 	
-//	@GetMapping("/course/content/{contentId}")
-//	public ResponseEntity<?> coureseContentById(@PathVariable @NotNull Long contentId)
-//	{
-//		System.out.println("in Get Content"+ contentId);
-//		return ResponseEntity.ok(course.contentBYId(contentId));
-//	}
-//	
+	@GetMapping("/course/content/{contentId}")
+	public ResponseEntity<ContentGetDto> coureseContentById(@PathVariable @NotNull Long contentId)
+	{
+		System.out.println("in Get Content"+ contentId);
+		return ResponseEntity.ok(course.contentBYId(contentId));
+	}
+	
+	
+	
 	
 }

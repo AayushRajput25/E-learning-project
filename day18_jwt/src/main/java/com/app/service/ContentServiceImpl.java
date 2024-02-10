@@ -16,6 +16,7 @@ import com.app.dao.ContentDao;
 import com.app.dao.CourseDao;
 import com.app.dto.ApiResponse;
 import com.app.dto.ContentDescDto;
+import com.app.dto.ContentGetDto;
 import com.app.entities.Content;
 import com.app.entities.Courses;
 
@@ -59,6 +60,17 @@ public class ContentServiceImpl implements ContentService{
         }
 		
 		return new ApiResponse("file upload failed");
+	}
+	
+	@Override
+	public ContentGetDto contentBYId(@NotNull Long contentId) {	
+		
+		Content content = contentDao.findById(contentId).orElseThrow(()-> new ResourceNotFoundException("Course Not exist"));
+		System.out.println(content);
+		
+		ContentGetDto myDto = mapper.map(content,ContentGetDto.class);
+		System.out.println(myDto);
+		return myDto;
 	}
 
 	
