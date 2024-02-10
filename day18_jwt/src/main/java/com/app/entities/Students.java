@@ -26,7 +26,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+//@Builderx
 public class Students extends BaseEntity{
 	
 	@Column(length = 50)
@@ -47,7 +47,7 @@ public class Students extends BaseEntity{
 	@Lob
 	private byte[] profilePic;
 	
-	private LocalDate joiningDate;
+	private LocalDate joiningDate = LocalDate.now();
 	
 	@OneToOne
 	@JoinColumn(name = "student_id",nullable = false)
