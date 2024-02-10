@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
+
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.StudentSignUp;
 import com.app.dto.TeacherSignUp;
 import com.app.security.JwtUtils;
 import com.app.service.UserService;
+
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/users")
@@ -56,14 +60,19 @@ public class UserSignInSignUpController {
 		// i/f --> Authentication --> imple by UsernamePasswordAuthToken
 		// throws exc OR rets : verified credentials (UserDetails i.pl class: custom
 		// user details)
+		try {
+			Authentication verifiedAuth = mgr
+					.authenticate(new UsernamePasswordAuthenticationToken(reqDTO.getEmail(), reqDTO.getPassword()));
+			System.out.println(verifiedAuth.getClass());// Custom user details
+			// => auth success
 
-		Authentication verifiedAuth = mgr
-				.authenticate(new UsernamePasswordAuthenticationToken(reqDTO.getEmail(), reqDTO.getPassword()));
-		System.out.println(verifiedAuth.getClass());// Custom user details
-		// => auth success
-
-		return ResponseEntity
-				.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
+			return ResponseEntity
+					.ok(new SigninResponse(utils.generateJwtToken(verifiedAuth), "Successful Authentication!!!"));
+		} catch (Exception e) {
+//			com.app.dto.ApiResponse res = new com.app.dto.ApiResponse("Inavalid details");
+			return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.FORBIDDEN) ;
+		}
+		
 
 	}
 

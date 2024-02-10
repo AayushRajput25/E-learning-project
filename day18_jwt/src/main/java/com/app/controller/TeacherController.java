@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import java.io.IOException;
+
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.app.dto.ContentDto;
+import com.app.dto.ApiResponse;
+import com.app.dto.ContentDescDto;
 import com.app.dto.CoursesDto;
 import com.app.entities.Content;
 import com.app.entities.Courses;
@@ -59,13 +65,26 @@ public class TeacherController {
 	}
 	
 	@PostMapping("/course/content/{CourseId}")
-	public ResponseEntity<?> addContents(@PathVariable @NotNull Long CourseId,@RequestBody ContentDto content)
+	public ResponseEntity<?> addContents(@PathVariable @NotNull Long CourseId,@RequestBody ContentDescDto content)
 	{
 		System.out.println("in add course"+content + CourseId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(course.newContentByCId(CourseId,content));
 	
 	}
 	
+	@PostMapping(value = "/course/content/video/{contentId}",consumes = "multipart/form-data")
+	public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image")MultipartFile file,@PathVariable Long contentId) throws IOException, java.io.IOException {
+		ApiResponse uploadImage = course.uploadImageToFileSystem(file,contentId);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(uploadImage);
+	}
 	
+//	@GetMapping("/course/content/{contentId}")
+//	public ResponseEntity<?> coureseContentById(@PathVariable @NotNull Long contentId)
+//	{
+//		System.out.println("in Get Content"+ contentId);
+//		return ResponseEntity.ok(course.contentBYId(contentId));
+//	}
+//	
 	
 }

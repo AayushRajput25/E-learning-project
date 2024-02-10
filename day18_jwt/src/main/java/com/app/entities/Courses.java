@@ -38,7 +38,8 @@ public class Courses extends BaseEntity{
 	@JsonIgnore
 	private Teachers tId;
 	
-	@OneToMany(mappedBy = "cId"/*, cascade = CascadeType.MERGE*/)
+	@OneToMany(mappedBy = "cId"/*, cascade = CascadeType.MERGE*/,fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Content> content = new ArrayList<>();
 	
 	 // helper method : to add course
